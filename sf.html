@@ -120,7 +120,7 @@ if (replaceurl == "" || null || undefined) {document.getElementById('invalid').s
         }
 }
 var keyin = setInterval(key, 100)
-
+var user;
 var workingKey;
 function key() {
   var key = new XMLHttpRequest();
@@ -142,21 +142,7 @@ function key() {
 
       if (window.location.href.includes('?c')){
   user = window.location.href.split('=')[1];
-  var user;
   document.getElementById('nv').href = '/ytcount/?c=' + user
-$.getJSON('https://www.googleapis.com/youtube/v3/channels?id=' + user + '&part=snippet&key='+workingKey, function(data) {
-                document.getElementById("name").innerHTML = data.items[0].snippet.title;
-                var image = document.querySelector('#pic');
-                image.src = data.items[0].snippet.thumbnails.default.url;
-              })
-$.getJSON('https://www.googleapis.com/youtube/v3/channels?part=statistics&id=' + user + '&key='+workingKey, function(data) {
-                $('#odometer').html(data.items[0].statistics.subscriberCount.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-          });
-setInterval(function() {
-    $.getJSON('https://www.googleapis.com/youtube/v3/channels?part=statistics&id=' + user + '&key='+workingKey, function(data) {
-            $('#odometer').html(data.items[0].statistics.subscriberCount.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-          });
-        }, 2000);
 }
       }
       };
@@ -166,7 +152,15 @@ setInterval(function() {
   }
     key.send();
 }
-
+setInterval(function() {
+    $.getJSON('https://www.googleapis.com/youtube/v3/channels?part=statistics&id=' + user + '&key='+workingKey, function(data) {
+            $('#odometer').html(data.items[0].statistics.subscriberCount.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+          });
+        $.getJSON('https://www.googleapis.com/youtube/v3/channels?id=' + user + '&part=snippet&key='+workingKey, function(data) {
+                document.getElementById("name").innerHTML = data.items[0].snippet.title;
+                var image = document.querySelector('#pic');
+                image.src = data.items[0].snippet.thumbnails.default.url;
+              })}, 2000);
 </script>
 </body>
 </html>
