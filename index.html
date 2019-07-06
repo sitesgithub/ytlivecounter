@@ -2,8 +2,11 @@
 <html>
 <head>
   <title>YT Sub Counter</title>
+  <link rel="shortcut icon" href="https://s.ytimg.com/yts/img/favicon-vfl8qSV2F.ico" type="image/x-icon">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="js/odometer.js"></script>
+  <script src="js/odometer.js"></script>
+  <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+  <META HTTP-EQUIV="Expires" CONTENT="-1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style> .odometer.odometer-auto-theme, .odometer.odometer-theme-default {
   display: -moz-inline-box;
@@ -106,81 +109,83 @@
 <body>
 <center>
 <h3>
-<img style="border-radius: 50%;" id="pic" src="">
-<k id="name" style="font-family: Arial">Loading...</k>
+<img style="border-radius: 50%; height:86px" id="pic" src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/146/ok-hand-sign_1f44c.png">
+<k id="name" style="font-family: Arial; font-size: 30px">Loading...</k>
 <br name="or in other words, BRUH">
 </h3>
 
 <strong><div id="odometer" class="odometer" style="font-family: Arial; font-size: 130px"></div><br><br name="yes more BRUH"></strong>
 <input style="length:100px; font-size: 25px;" type="text" name="search" id="search" placeholder="Name or Channel URL" value="">
 <button type="submit" id="searchbutton" onclick="search()" style="font-size: 15px"><i class="fa fa-search"></i></button>
-<h3 style="font-family: Arial; position: fixed; bottom: 0; width:100%; text-align: center">Some code from Shaz#0666</h3>
+<h3 style="font-family: Arial; position: fixed; bottom: 0; width:100%; text-align: center"><a id="sf" href="">Stream Friendly Version</a>  &#8226;  Some code from Shaz#0666</h3>
 </center>
 
 
 <script>
+
 if (!window.location.href.includes('?c')) {
  window.location.href = "/ytcount/?c=UC-lHJZR3Gqxm24_Vd_AJ5Yw";
 } else {
 function search() {
-            var replaceurl = document.getElementById('search').value.replace("%20", " "); //turns spaces to spaces
+            var replaceurl = document.getElementById('search').value.replace("%20", " ");
             $.getJSON('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=channel&fields=items%2Fsnippet%2FchannelId&q='+replaceurl+'&key='+workingKey, function(data) {
                 window.location.href = '/ytcount/?c='+data.items[0].snippet.channelId;
-            })//get id of channel then set channel id
+            })
         }
         document.getElementById("search").addEventListener("keyup", function(event) {
             if (event.keyCode === 13) {
                 event.preventDefault();
                 search();
-            } // when you press enter it presses search
+            }
         })
-var keyin = setInterval(key, 100) //keep on trying until getting a working key
+var keyin = setInterval(key, 100)
 
-var workingKey; //where working key will be stored
+var workingKey;
 function key() {
   var key = new XMLHttpRequest();
-  key.open("GET", "keys", true); //creates a request to grab all the keys (the keys are api keys)
+  key.open("GET", "keys", true);
   key.onreadystatechange = function() {
     if (key.readyState === 4) {
-      var allKeys = key.responseText; //allKeys is where all the keys will be stored
-        var keyArray = allKeys.split("\n") //create a array of allKeys
-        var randomKey = keyArray[Math.floor(Math.random() * keyArray.length)]; //creates a random key
-      var keyy = new XMLHttpRequest(); //checks if key works
+      var allKeys = key.responseText;
+        var keyArray = allKeys.split("\n")
+        var randomKey = keyArray[Math.floor(Math.random() * keyArray.length)];
+      var keyy = new XMLHttpRequest();
       keyy.open("GET", "https://www.googleapis.com/youtube/v3/channels?part=statistics&id=UC-lHJZR3Gqxm24_Vd_AJ5Yw&key=" +randomKey, true)
       keyy.onreadystatechange = function() {
       if (keyy.readyState === 4) {
       if (keyy.responseText.includes('error')){
-console.log('key does not work') //key does not work
+console.log('key does not work')
       } else {
-      workingKey = keyy.responseURL.split('&')[2].split('=')[1] //get the working key from the responseURL. If we try to get it using the variable randomKey, it will give a undefined.
-      clearInterval(keyin) //Stops finding the key
-console.log('key works, ' + workingKey) //Says the key works and logs the working key
-      
+      workingKey = keyy.responseURL.split('&')[2].split('=')[1]
+      clearInterval(keyin)
+      console.log('key works, ' + workingKey)
 
       if (window.location.href.includes('?c')){
-  user = window.location.href.split('=')[1]; //Gets the user id from the URL
+  user = window.location.href.split('=')[1];
   var user;
+document.getElementById('sf').href = '/ytcount/sf.html?c=' + user;
 $.getJSON('https://www.googleapis.com/youtube/v3/channels?id=' + user + '&part=snippet&key='+workingKey, function(data) {
                 document.getElementById("name").innerHTML = data.items[0].snippet.title;
                 var image = document.querySelector('#pic');
                 image.src = data.items[0].snippet.thumbnails.default.url;
-              }) //Gets username and profile picture
+              })
 $.getJSON('https://www.googleapis.com/youtube/v3/channels?part=statistics&id=' + user + '&key='+workingKey, function(data) {
                 $('#odometer').html(data.items[0].statistics.subscriberCount.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-          }); //Gets the subscriber count
+          });
 setInterval(function() {
     $.getJSON('https://www.googleapis.com/youtube/v3/channels?part=statistics&id=' + user + '&key='+workingKey, function(data) {
             $('#odometer').html(data.items[0].statistics.subscriberCount.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
           });
-        }, 2000); //Update subscriber count every 2 seconds
+        }, 2000);
 }
       }
       };
     };
-    keyy.send() //Send the request to check keys
+    console.log(keyy)
+    keyy.send()
     }
   }
-    key.send(); //Send the request for all keys
+    key.send();
 }
 }
 </script>
