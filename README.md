@@ -1,4 +1,4 @@
-# Note :The code is written in Javascript, not node.js, not php. Just Javascript along with HTML and CSS.
+# Note: The code is written in Javascript along with HTML and CSS.
 
 You need some Youtube API Keys. I have gotten some from debugging http://livecounts.net
 After you get your API keys, place all of them in a file called keys
