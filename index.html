@@ -160,11 +160,9 @@ function key() {
       keyy.onreadystatechange = function() {
       if (keyy.readyState === 4) {
       if (keyy.responseText.includes('error')){
-console.log('key does not work')
       } else {
       workingKey = keyy.responseURL.split('&')[2].split('=')[1]
       clearInterval(keyin)
-      console.log('key works, ' + workingKey)
 
       if (window.location.href.includes('?c')){
   user = window.location.href.split('=')[1];
