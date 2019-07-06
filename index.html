@@ -8,7 +8,13 @@
   <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
   <META HTTP-EQUIV="Expires" CONTENT="-1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://shaz.lol/yt-sub-counter/assets/css/odometer-custom.css">
+<link rel="stylesheet" href="css/odometer.css">
+<meta content='width=device-width, initial-scale=1' name='viewport'/>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Live Youtube Subscriber Count" />
+<meta property="og:description" content="A live youtube subscriber count that runs on HTML, JS and CSS" />
+<meta property="og:url" content="http://pur1st.x10.bz/ytcount/" />
+<meta property="og:image" content="https://cdn4.iconfinder.com/data/icons/social-messaging-ui-color-shapes-2-free/128/social-youtube-circle-512.png" />
 </head>
 <body>
 <center>
@@ -24,8 +30,7 @@
 <br>
 <br>
 <br>
-<h3 style="font-family: Arial; color: red; display: none" id="invalid">Invalid user or URL. This message disappears when you put a valid user or URL.</h3>
-<h3 style="font-family: Arial; position: fixed; bottom: 0; width:100%; text-align: center"><a id="sf" href="">Stream Friendly Version</a>  &#8226;  Some code from Shaz#0666</h3>
+<h3 style="font-family: Arial; position: fixed; bottom: 0; width:100%; text-align: center"><a id="sf" href="">Stream Friendly Version</a>  &#8226;  Some code from Shaz#0666  &#8226;  <a href="http://github.com/sitesgithub/ytlivecounter">Fork on Github</a></h3>
 </center>
 
 
@@ -37,7 +42,7 @@ if (!window.location.href.includes('?c')) {
 } else {
 function search() {
             var replaceurl = document.getElementById('search').value.replace("%20", " ");
-if (replaceurl == "") {document.getElementById('invalid').style.display = "block";} else {
+if (replaceurl == "") {} else {
             $.getJSON('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=channel&fields=items%2Fsnippet%2FchannelId&q='+replaceurl+'&key='+workingKey, function(data) {
                 window.location.href = '/ytcount/?c='+data.items[0].snippet.channelId;
             })
@@ -71,7 +76,11 @@ function key() {
       if (window.location.href.includes('?c')){
   user = window.location.href.split('=')[1];
 document.getElementById('sf').href = '/ytcount/sf.html?c=' + user;
-
+$.getJSON('https://www.googleapis.com/youtube/v3/channels?id=' + user + '&part=snippet&key='+workingKey, function(data) {
+                document.getElementById("name").innerHTML = data.items[0].snippet.title;
+                var image = document.querySelector('#pic');
+                image.src = data.items[0].snippet.thumbnails.default.url;
+              })
 }
       }
       };
@@ -85,12 +94,10 @@ document.getElementById('sf').href = '/ytcount/sf.html?c=' + user;
 setInterval(function() {
     $.getJSON('https://www.googleapis.com/youtube/v3/channels?part=statistics&id=' + user + '&key='+workingKey, function(data) {
             $('#odometer').html(data.items[0].statistics.subscriberCount.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-          });
-    $.getJSON('https://www.googleapis.com/youtube/v3/channels?id=' + user + '&part=snippet&key='+workingKey, function(data) {
-                document.getElementById("name").innerHTML = data.items[0].snippet.title;
-                var image = document.querySelector('#pic');
-                image.src = data.items[0].snippet.thumbnails.default.url;
-              })}, 2000);
+          })
+    
+}, 2000);
+
 </script>
 </body>
 </html>
