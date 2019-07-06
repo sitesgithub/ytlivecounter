@@ -18,11 +18,13 @@
 function search() {
             var replaceurl = prompt('Input a Channel URL or Channel Name (if nothing happens that means it is invalid)');
 if (replaceurl == "" || null || undefined) {} else {
+    if (replaceurl === null || undefined) {} else {
             $.getJSON('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=channel&fields=items%2Fsnippet%2FchannelId&q='+replaceurl+'&key='+workingKey, function(data) {
                 window.location.href = 'sf.html?c='+data.items[0].snippet.channelId;
             })
         }
 }
+};
 var keyin = setInterval(key, 100)
 var user;
 var workingKey;
