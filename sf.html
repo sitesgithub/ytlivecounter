@@ -135,10 +135,8 @@ function key() {
       keyy.onreadystatechange = function() {
       if (keyy.readyState === 4) {
       if (keyy.responseText.includes('error')){
-console.log('key does not work')
       } else {
       workingKey = keyy.responseURL.split('&')[2].split('=')[1]
-console.log('key works, ' + workingKey)
       clearInterval(keyin)
       
 
