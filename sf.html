@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>YT Sub Counter</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="js/odometer.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style> .odometer.odometer-auto-theme, .odometer.odometer-theme-default {
+  display: -moz-inline-box;
+  -moz-box-orient: vertical;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  position: relative;
+}
+.odometer.odometer-auto-theme, .odometer.odometer-theme-default {
+  *display: inline;
+}
+.odometer.odometer-auto-theme .odometer-digit, .odometer.odometer-theme-default .odometer-digit {
+  display: -moz-inline-box;
+  -moz-box-orient: vertical;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  position: relative;
+}
+.odometer.odometer-auto-theme .odometer-digit, .odometer.odometer-theme-default .odometer-digit {
+  *display: inline;
+}
+.odometer.odometer-auto-theme .odometer-digit .odometer-digit-spacer, .odometer.odometer-theme-default .odometer-digit .odometer-digit-spacer {
+  display: -moz-inline-box;
+  -moz-box-orient: vertical;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  visibility: hidden;
+}
+.odometer.odometer-auto-theme .odometer-digit .odometer-digit-spacer, .odometer.odometer-theme-default .odometer-digit .odometer-digit-spacer {
+  *display: inline;
+}
+.odometer.odometer-auto-theme .odometer-digit .odometer-digit-inner, .odometer.odometer-theme-default .odometer-digit .odometer-digit-inner {
+  text-align: left;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+.odometer.odometer-auto-theme .odometer-digit .odometer-ribbon, .odometer.odometer-theme-default .odometer-digit .odometer-ribbon {
+  display: block;
+}
+.odometer.odometer-auto-theme .odometer-digit .odometer-ribbon-inner, .odometer.odometer-theme-default .odometer-digit .odometer-ribbon-inner {
+  display: block;
+  -webkit-backface-visibility: hidden;
+}
+.odometer.odometer-auto-theme .odometer-digit .odometer-value, .odometer.odometer-theme-default .odometer-digit .odometer-value {
+  display: block;
+  -webkit-transform: translateZ(0);
+}
+.odometer.odometer-auto-theme .odometer-digit .odometer-value.odometer-last-value, .odometer.odometer-theme-default .odometer-digit .odometer-value.odometer-last-value {
+  position: absolute;
+}
+.odometer.odometer-auto-theme.odometer-animating-up .odometer-ribbon-inner, .odometer.odometer-theme-default.odometer-animating-up .odometer-ribbon-inner {
+  -webkit-transition: -webkit-transform 2s;
+  -moz-transition: -moz-transform 2s;
+  -ms-transition: -ms-transform 2s;
+  -o-transition: -o-transform 2s;
+  transition: transform 2s;
+}
+.odometer.odometer-auto-theme.odometer-animating-up.odometer-animating .odometer-ribbon-inner, .odometer.odometer-theme-default.odometer-animating-up.odometer-animating .odometer-ribbon-inner {
+  -webkit-transform: translateY(-100%);
+  -moz-transform: translateY(-100%);
+  -ms-transform: translateY(-100%);
+  -o-transform: translateY(-100%);
+  transform: translateY(-100%);
+}
+.odometer.odometer-auto-theme.odometer-animating-down .odometer-ribbon-inner, .odometer.odometer-theme-default.odometer-animating-down .odometer-ribbon-inner {
+  -webkit-transform: translateY(-100%);
+  -moz-transform: translateY(-100%);
+  -ms-transform: translateY(-100%);
+  -o-transform: translateY(-100%);
+  transform: translateY(-100%);
+}
+.odometer.odometer-auto-theme.odometer-animating-down.odometer-animating .odometer-ribbon-inner, .odometer.odometer-theme-default.odometer-animating-down.odometer-animating .odometer-ribbon-inner {
+  -webkit-transition: -webkit-transform 2s;
+  -moz-transition: -moz-transform 2s;
+  -ms-transition: -ms-transform 2s;
+  -o-transition: -o-transform 2s;
+  transition: transform 2s;
+  -webkit-transform: translateY(0);
+  -moz-transform: translateY(0);
+  -ms-transform: translateY(0);
+  -o-transform: translateY(0);
+  transform: translateY(0);
+}
+
+.odometer.odometer-auto-theme, .odometer.odometer-theme-default {
+  line-height: 1.1em;
+}
+.odometer.odometer-auto-theme .odometer-value, .odometer.odometer-theme-default .odometer-value {
+  text-align: center;
+}</style>
+</head>
+<body>
+<h4>
+<img style="border-radius: 50%;" id="pic" src="">
+<k id="name" style="font-family: Arial">Loading...</k>
+<br name="or in other words, BRUH">
+<strong><div id="odometer" class="odometer" style="font-family: Arial; font-size: 130px"></div><br><br name="yes more BRUH"></strong>
+</h4>
+
+
+<script>
+function search() {
+            var replaceurl = document.getElementById('search').value.replace("%20", " ");
+            $.getJSON('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=channel&fields=items%2Fsnippet%2FchannelId&q='+replaceurl+'&key='+workingKey, function(data) {
+                window.location.href = '/sf/?c='+data.items[0].snippet.channelId;
+            })
+        }
+        document.getElementById("search").addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                search();
+            }
+        })
+var keyin = setInterval(key, 100)
+
+var workingKey;
+function key() {
+  var key = new XMLHttpRequest();
+  key.open("GET", "keys", true);
+  key.onreadystatechange = function() {
+    if (key.readyState === 4) {
+      var allKeys = key.responseText;
+        var keyArray = allKeys.split("\n")
+        var randomKey = keyArray[Math.floor(Math.random() * keyArray.length)];
+      var keyy = new XMLHttpRequest();
+      keyy.open("GET", "https://www.googleapis.com/youtube/v3/channels?part=statistics&id=UC-lHJZR3Gqxm24_Vd_AJ5Yw&key=" +randomKey, true)
+      keyy.onreadystatechange = function() {
+      if (keyy.readyState === 4) {
+      if (keyy.responseText.includes('error')){
+console.log('key does not work')
+      } else {
+      workingKey = keyy.responseURL.split('&')[2].split('=')[1]
+console.log('key works, ' + workingKey)
+      clearInterval(keyin)
+      
+
+      if (window.location.href.includes('?c')){
+  user = window.location.href.split('=')[1];
+  var user;
+$.getJSON('https://www.googleapis.com/youtube/v3/channels?id=' + user + '&part=snippet&key='+workingKey, function(data) {
+                document.getElementById("name").innerHTML = data.items[0].snippet.title;
+                var image = document.querySelector('#pic');
+                image.src = data.items[0].snippet.thumbnails.default.url;
+              })
+$.getJSON('https://www.googleapis.com/youtube/v3/channels?part=statistics&id=' + user + '&key='+workingKey, function(data) {
+                $('#odometer').html(data.items[0].statistics.subscriberCount.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+          });
+setInterval(function() {
+    $.getJSON('https://www.googleapis.com/youtube/v3/channels?part=statistics&id=' + user + '&key='+workingKey, function(data) {
+            $('#odometer').html(data.items[0].statistics.subscriberCount.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+          });
+        }, 2000);
+}
+      }
+      };
+    };
+    console.log(keyy)
+    keyy.send()
+    }
+  }
+    key.send();
+}
+
+</script>
+</body>
+</html>
