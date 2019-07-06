@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>YT Sub Counter</title>
+  <title>YT Live Sub Counter</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<link rel="shortcut icon" href="https://s.ytimg.com/yts/img/favicon-vfl8qSV2F.ico" type="image/x-icon">
 <script src="js/odometer.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style> .odometer.odometer-auto-theme, .odometer.odometer-theme-default {
@@ -105,11 +106,19 @@
 </head>
 <body>
 <img style="height:88px; border-radius: 50%; display: inline-block" id="pic" src="">
-<k id="name" style="font-family: Arial; position: absolute; left: 105px; top: 15px;">Loading...</k>
-<strong><div id="odometer" class="odometer" style="font-family: Arial; font-size: 40px; position: absolute; top: 40px; left: 102px"></div></strong>
-<h3><a id="nv" style="font-family: Arial">Normal View</a></h3>
+<strong><k id="name" style="font-family: Arial; position: absolute; left: 105px; top: 15px;" onclick="search()">Loading...</k>
+<div id="odometer" class="odometer" style="font-family: Arial; font-size: 40px; position: absolute; top: 40px; left: 102px"></div></strong>
+<h3 style="font-family: Arial"><a id="nv" style="font-family: Arial">Normal View</a>, Click the name to change the channel!</h3>
 
 <script>
+function search() {
+            var replaceurl = prompt('Input a Channel URL or Channel Name (if nothing happens that means it is invalid)');
+if (replaceurl == "" || null || undefined) {document.getElementById('invalid').style.display = "block";} else {
+            $.getJSON('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=channel&fields=items%2Fsnippet%2FchannelId&q='+replaceurl+'&key='+workingKey, function(data) {
+                window.location.href = 'sf.html?c='+data.items[0].snippet.channelId;
+            })
+        }
+}
 var keyin = setInterval(key, 100)
 
 var workingKey;
