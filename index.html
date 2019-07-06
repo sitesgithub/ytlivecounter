@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>YT Sub Counter</title>
+  <title>YT Live Sub Counter</title>
   <link rel="shortcut icon" href="https://s.ytimg.com/yts/img/favicon-vfl8qSV2F.ico" type="image/x-icon">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="js/odometer.js"></script>
@@ -114,9 +114,13 @@
 <br name="or in other words, BRUH">
 </h3>
 
-<strong><div id="odometer" class="odometer" style="font-family: Arial; font-size: 130px"></div><br><br name="yes more BRUH"></strong>
+<strong><div id="odometer" class="odometer" style="font-family: Arial; font-size: 130px"></div><br><br name="yes more BRUH"><br><br></strong>
 <input style="length:100px; font-size: 25px;" type="text" name="search" id="search" placeholder="Name or Channel URL" value="">
 <button type="submit" id="searchbutton" onclick="search()" style="font-size: 15px"><i class="fa fa-search"></i></button>
+<br>
+<br>
+<br>
+<h3 style="font-family: Arial; color: red; display: none" id="invalid">Invalid user or URL. This message disappears when you put a valid user or URL.</h3>
 <h3 style="font-family: Arial; position: fixed; bottom: 0; width:100%; text-align: center"><a id="sf" href="">Stream Friendly Version</a>  &#8226;  Some code from Shaz#0666</h3>
 </center>
 
@@ -128,6 +132,7 @@ if (!window.location.href.includes('?c')) {
 } else {
 function search() {
             var replaceurl = document.getElementById('search').value.replace("%20", " ");
+if (replaceurl == "") {document.getElementById('invalid').style.display = "block";} else {
             $.getJSON('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=channel&fields=items%2Fsnippet%2FchannelId&q='+replaceurl+'&key='+workingKey, function(data) {
                 window.location.href = '/ytcount/?c='+data.items[0].snippet.channelId;
             })
@@ -138,6 +143,7 @@ function search() {
                 search();
             }
         })
+};
 var keyin = setInterval(key, 100)
 
 var workingKey;
