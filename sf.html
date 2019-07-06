@@ -104,27 +104,12 @@
 }</style>
 </head>
 <body>
-<h4>
-<img style="border-radius: 50%;" id="pic" src="">
-<k id="name" style="font-family: Arial">Loading...</k>
-<br name="or in other words, BRUH">
-<strong><div id="odometer" class="odometer" style="font-family: Arial; font-size: 130px"></div><br><br name="yes more BRUH"></strong>
-</h4>
-
+<img style="height:88px; border-radius: 50%; display: inline-block" id="pic" src="">
+<k id="name" style="font-family: Arial; position: absolute; left: 105px; top: 15px;">Loading...</k>
+<strong><div id="odometer" class="odometer" style="font-family: Arial; font-size: 40px; position: absolute; top: 40px; left: 102px"></div></strong>
+<h3><a id="nv" style="font-family: Arial">Normal View</a></h3>
 
 <script>
-function search() {
-            var replaceurl = document.getElementById('search').value.replace("%20", " ");
-            $.getJSON('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=channel&fields=items%2Fsnippet%2FchannelId&q='+replaceurl+'&key='+workingKey, function(data) {
-                window.location.href = '/sf/?c='+data.items[0].snippet.channelId;
-            })
-        }
-        document.getElementById("search").addEventListener("keyup", function(event) {
-            if (event.keyCode === 13) {
-                event.preventDefault();
-                search();
-            }
-        })
 var keyin = setInterval(key, 100)
 
 var workingKey;
@@ -151,6 +136,7 @@ console.log('key works, ' + workingKey)
       if (window.location.href.includes('?c')){
   user = window.location.href.split('=')[1];
   var user;
+  document.getElementById('nv').href = '/ytcount/?c=' + user
 $.getJSON('https://www.googleapis.com/youtube/v3/channels?id=' + user + '&part=snippet&key='+workingKey, function(data) {
                 document.getElementById("name").innerHTML = data.items[0].snippet.title;
                 var image = document.querySelector('#pic');
