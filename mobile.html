@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>YT Live Sub Counter</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<link rel="shortcut icon" href="https://s.ytimg.com/yts/img/favicon-vfl8qSV2F.ico" type="image/x-icon">
+<script src="js/odometer.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/odometer.css">
+</head>
+<body>
+<div style="display: flex;flex-direction: column;justify-content: center;align-items: center;text-align: center;min-height: 100vh;">
+<h1 style="font-family: Arial" id="hide">You were detected using mobile so you were redirected to a mobile friendly page! Click the name to change channels!</h1>
+<center>
+<h1 style="text-align: center">
+
+<img style="height:256px; border-radius: 50%; display: inline-block" id="pic" src="">
+<strong><h1 id="name" style="font-family: Arial;" onclick="search()">Loading...</h1></strong>
+
+<strong>
+<h1 id="odometer" class="odometer" style="font-family: Arial; font-size: 120px; display: inline;"></h1></strong>
+</h1>
+</center>
+</div>
+<script>
+if (window.location.href.includes('?h')){
+  document.getElementById('hide').style.display = "none"
+};
+
+function search() {
+            var replaceurl = prompt('Input a Channel URL or Channel Name (if nothing happens that means it is invalid)');
+if (replaceurl == "" || null || undefined) {} else {
+    if (replaceurl === null || undefined) {} else {
+            $.getJSON('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=channel&fields=items%2Fsnippet%2FchannelId&q='+replaceurl+'&key='+workingKey, function(data) {
+                window.location.href = '?h?c='+data.items[0].snippet.channelId
+            })
+        }
+}
+};
+setTimeout(function(){document.getElementById('hide').style.display = "none";}, 10000)
+var keyin = setInterval(key, 100)
+var user;
+var workingKey;
+function key() {
+  var key = new XMLHttpRequest();
+  key.open("GET", "keys", true);
+  key.onreadystatechange = function() {
+    if (key.readyState === 4) {
+      var allKeys = key.responseText;
+        var keyArray = allKeys.split("\n")
+        var randomKey = keyArray[Math.floor(Math.random() * keyArray.length)];
+      var keyy = new XMLHttpRequest();
+      keyy.open("GET", "https://www.googleapis.com/youtube/v3/channels?part=statistics&id=UC-lHJZR3Gqxm24_Vd_AJ5Yw&key=" +randomKey, true)
+      keyy.onreadystatechange = function() {
+      if (keyy.readyState === 4) {
+      if (keyy.responseText.includes('error')){
+      } else {
+      workingKey = keyy.responseURL.split('&')[2].split('=')[1]
+      clearInterval(keyin)
+
+      if (window.location.href.includes('?c')){
+  user = window.location.href.split('=')[1];
+  $.getJSON('https://www.googleapis.com/youtube/v3/channels?id=' + user + '&part=snippet&key='+workingKey, function(data) {
+                document.getElementById("name").innerHTML = data.items[0].snippet.title;
+                var image = document.querySelector('#pic');
+                image.src = data.items[0].snippet.thumbnails.default.url;
+              })
+}
+      }
+      };
+    };
+    keyy.send()
+    }
+  }
+    key.send();
+}
+setInterval(function() {
+    $.getJSON('https://www.googleapis.com/youtube/v3/channels?part=statistics&id=' + user + '&key='+workingKey, function(data) {
+            $('#odometer').html(data.items[0].statistics.subscriberCount.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+          });
+    
+}, 2000);
+
+if (!window.location.href.includes('?c')) {
+ window.location.href = "?c=UC-lHJZR3Gqxm24_Vd_AJ5Yw";
+}
+</script>
+</body>
+</html>
