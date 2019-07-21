@@ -9,3 +9,5 @@ It only has to be the keys, no quotation marks or ticks.
 For a working version, click [me!](http://pur1st.x10.bz/ytcount/index.html).
 
 Note: This does not work if you download it, then open it. You need a [webserver](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb) to do so.
+
+What this software does is get the keys, checks for a key and uses that key to make the magic happen!
