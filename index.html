@@ -40,13 +40,13 @@
 <script>
 
 if (!window.location.href.includes('?c')) {
- window.location.href = "/ytcount/?c=UC-lHJZR3Gqxm24_Vd_AJ5Yw";
+ window.location.href = "?c=UC-lHJZR3Gqxm24_Vd_AJ5Yw";
 } else {
 function search() {
             var replaceurl = document.getElementById('search').value.replace("%20", " ");
 if (replaceurl == "") {} else {
             $.getJSON('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=channel&fields=items%2Fsnippet%2FchannelId&q='+replaceurl+'&key='+workingKey, function(data) {
-                window.location.href = '/ytcount/?c='+data.items[0].snippet.channelId;
+                window.location.href = '?c='+data.items[0].snippet.channelId;
             })
         }
         document.getElementById("search").addEventListener("keyup", function(event) {
@@ -77,7 +77,7 @@ function key() {
       clearInterval(keyin)
       if (window.location.href.includes('?c')){
   user = window.location.href.split('=')[1];
-document.getElementById('sf').href = '/ytcount/sf.html?c=' + user;
+document.getElementById('sf').href = '/sf.html?c=' + user;
 $.getJSON('https://www.googleapis.com/youtube/v3/channels?id=' + user + '&part=snippet&key='+workingKey, function(data) {
                 document.getElementById("name").innerHTML = data.items[0].snippet.title;
                 var image = document.querySelector('#pic');
