@@ -20,7 +20,7 @@ function search() {
 if (replaceurl == "" || null || undefined) {} else {
     if (replaceurl === null || undefined) {} else {
             $.getJSON('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=channel&fields=items%2Fsnippet%2FchannelId&q='+replaceurl+'&key='+workingKey, function(data) {
-                window.location.href = 'sf.html?c='+data.items[0].snippet.channelId;
+                window.location.href = '?c='+data.items[0].snippet.channelId;
             })
         }
 }
@@ -47,7 +47,7 @@ function key() {
 
       if (window.location.href.includes('?c')){
   user = window.location.href.split('=')[1];
-  document.getElementById('nv').href = '/ytcount/?c=' + user
+  document.getElementById('nv').href = 'index.html?c=' + user
   $.getJSON('https://www.googleapis.com/youtube/v3/channels?id=' + user + '&part=snippet&key='+workingKey, function(data) {
                 document.getElementById("name").innerHTML = data.items[0].snippet.title;
                 var image = document.querySelector('#pic');
