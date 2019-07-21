@@ -77,7 +77,7 @@ function key() {
       clearInterval(keyin)
       if (window.location.href.includes('?c')){
   user = window.location.href.split('=')[1];
-document.getElementById('sf').href = '/sf.html?c=' + user;
+document.getElementById('sf').href = 'sf.html?c=' + user;
 $.getJSON('https://www.googleapis.com/youtube/v3/channels?id=' + user + '&part=snippet&key='+workingKey, function(data) {
                 document.getElementById("name").innerHTML = data.items[0].snippet.title;
                 var image = document.querySelector('#pic');
