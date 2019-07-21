@@ -10,4 +10,4 @@ For a working version, click [me!](http://pur1st.x10.bz/ytcount/index.html).
 
 Note: This does not work if you download it, then open it. You need a [webserver](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb) to do so.
 
-What this software does is get the keys, checks for a key and uses that key to make the magic happen!
+What this software does is get the keys, checks for a key and uses that key to send GET requests to google api servers to get the account the user is requesting and changes the innerText amount to the subscriberCount variable listed in the JSON from the response from the GET request every 2 seconds.
