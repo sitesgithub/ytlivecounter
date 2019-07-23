@@ -20,7 +20,7 @@ function search() {
 if (replaceurl == "" || null || undefined) {} else {
     if (replaceurl === null || undefined) {} else {
             $.getJSON('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=channel&fields=items%2Fsnippet%2FchannelId&q='+replaceurl+'&key='+workingKey, function(data) {
-                window.location.href = '?c='+data.items[0].snippet.channelId;
+                window.location.href = 'sf.html?c='+data.items[0].snippet.channelId;
             })
         }
 }
@@ -47,7 +47,7 @@ function key() {
 
       if (window.location.href.includes('?c')){
   user = window.location.href.split('=')[1];
-  document.getElementById('nv').href = 'index.html?c=' + user
+  document.getElementById('nv').href = '/ytcount/?c=' + user
   $.getJSON('https://www.googleapis.com/youtube/v3/channels?id=' + user + '&part=snippet&key='+workingKey, function(data) {
                 document.getElementById("name").innerHTML = data.items[0].snippet.title;
                 var image = document.querySelector('#pic');
@@ -63,9 +63,18 @@ function key() {
     key.send();
 }
 setInterval(function() {
-    $.getJSON('https://www.googleapis.com/youtube/v3/channels?part=statistics&id=' + user + '&key='+workingKey, function(data) {
-            $('#odometer').html(data.items[0].statistics.subscriberCount.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-          });
+      var keyy = new XMLHttpRequest();
+      keyy.open("GET", "https://www.googleapis.com/youtube/v3/channels?part=statistics&id=UC-lHJZR3Gqxm24_Vd_AJ5Yw&key=" +workingKey, true)
+      keyy.onreadystatechange = function() {
+      if (keyy.readyState === 4) {
+      if (keyy.responseText.includes('error')){
+        window.location.reload()
+      } else {
+      $('#odometer').html(JSON.parse(this.responseText).items[0].statistics.subscriberCount.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      }
+      }
+      };
+    keyy.send()
     
 }, 2000);
 </script>
