@@ -24,7 +24,7 @@
 <br name="or in other words, BRUH">
 </h3>
 
-<strong><div id="odometer" class="odometer" style="font-family: Arial; font-size: 130px"></div><br><br name="yes more BRUH"><br><br></strong>
+<strong><div id="odometer" class="odometer" style="font-family: Arial; font-size: 130px">0</div><br><br name="yes more BRUH"><br><br></strong>
 <h4 id="unhide" style="font-family: Arial; color: gray; display: none;">You have been detected using a phone! To change the name, press the name!</h4>
 <div id="hide">
 <input style="length:100px; font-size: 25px;" type="text" name="search" id="search" placeholder="Name or Channel URL" value="">
@@ -73,12 +73,12 @@ function key() {
       if (keyy.readyState === 4) {
       if (keyy.responseText.includes('error')){
       } else {
-      workingKey = keyy.responseURL.split('&')[2].split('=')[1]
+      localStorage.setItem('key', keyy.responseURL.split('&')[2].split('=')[1])
       clearInterval(keyin)
       if (window.location.href.includes('?c')){
   user = window.location.href.split('=')[1];
 document.getElementById('sf').href = 'sf.html?c=' + user;
-$.getJSON('https://www.googleapis.com/youtube/v3/channels?id=' + user + '&part=snippet&key='+workingKey, function(data) {
+$.getJSON('https://www.googleapis.com/youtube/v3/channels?id=' + user + '&part=snippet&key='+localStorage.getItem('key'), function(data) {
                 document.getElementById("name").innerHTML = data.items[0].snippet.title;
                 var image = document.querySelector('#pic');
                 image.src = data.items[0].snippet.thumbnails.default.url;
@@ -95,7 +95,7 @@ $.getJSON('https://www.googleapis.com/youtube/v3/channels?id=' + user + '&part=s
 }
 setInterval(function() {
       var keyy = new XMLHttpRequest();
-      keyy.open("GET", "https://www.googleapis.com/youtube/v3/channels?part=statistics&id=UC-lHJZR3Gqxm24_Vd_AJ5Yw&key=" +workingKey, true)
+      keyy.open("GET", "https://www.googleapis.com/youtube/v3/channels?part=statistics&id="+user+"&key=" +localStorage.getItem('key'), true)
       keyy.onreadystatechange = function() {
       if (keyy.readyState === 4) {
       if (keyy.responseText.includes('error')){
